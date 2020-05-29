@@ -1,0 +1,18 @@
+.btn-body{
+    border-radius: 20px;
+    border: 0;
+    padding: 10px 30px;
+    transition: 0.5s ease-out;
+    cursor: pointer;
+}
+
+.btn-body{
+    background: var(--gradient);
+    color: white;
+    /* height: 48px; */
+    box-shadow: 0 3px 5px 2px rgba(87, 87, 87, 0.3);
+}
+
+.btn-body:hover{
+    transform: scale(1.2);
+}
