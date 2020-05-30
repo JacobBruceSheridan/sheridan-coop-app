@@ -8,16 +8,24 @@ import CoopTable from './CoopTable';
 
 export default function Dashboard({ signOut }) {
     const [jobs, setJobs] = useState([]);
+    const [selectedSort, setSelectedSort] = useState('');
 
     const getJobs = async () => {
-        const tempJobs = [];
+        let tempJobs = [];
         const db = firebase.firestore();
         await db.collection('users').doc(JSON.parse(window.localStorage.getItem('user')).uid)
             .collection('jobs').get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
-                    tempJobs.push(doc.data());
+                    tempJobs.push({ id: doc.id, ...doc.data() });
+                    tempJobs[tempJobs.length - 1].timeAdded = tempJobs[tempJobs.length - 1].timeAdded.toDate();
                 });
             });
+        tempJobs = tempJobs.sort(function (a, b) {
+            a = new Date(a.timeAdded);
+            b = new Date(b.timeAdded);
+            return a > b ? -1 : a < b ? 1 : 0;
+        });
+
         setJobs(tempJobs);
     }
 
@@ -25,11 +33,17 @@ export default function Dashboard({ signOut }) {
         getJobs();
     }, []);
 
+    const sortJobs = e => {
+        const sortBy = e.target.abbr;
+        setJobs(jobs.sort((a, b) => a[sortBy].localeCompare(b[sortBy])));
+        setSelectedSort(sortBy);
+    }
+
     return (
         <div className="content-container">
             <Header signOut={signOut} />
             <Form getJobs={getJobs} />
-            <CoopTable jobs={jobs} />
+            <CoopTable jobs={jobs} sortJobs={sortJobs} selectedSort={selectedSort} />
         </div>
     )
 }

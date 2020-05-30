@@ -30,7 +30,8 @@ export default function Form({ getJobs }) {
                 company,
                 location,
                 term,
-                pay
+                pay,
+                timeAdded: firebase.firestore.Timestamp.fromDate(new Date(Date.now()))
             })
             .then(function () {
                 console.log("Document successfully written!");

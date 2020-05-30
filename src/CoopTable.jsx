@@ -1,27 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer } from 'react';
 import './styles/CoopTable.css';
-import * as firebase from 'firebase';
 
-export default function CoopTable({ jobs }) {
+export default function CoopTable({ jobs, sortJobs, selectedSort }) {
 
+    const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
 
+    const sortAndUpdate = e => {
+        sortJobs(e);
+        forceUpdate();
+    }
+
+    const tableHeaders = [
+        { id: 1, abbr: 'job_title', htmlValue: 'Job Title' },
+        { id: 2, abbr: 'company', htmlValue: 'Company' },
+        { id: 3, abbr: 'location', htmlValue: 'Location' },
+        { id: 4, abbr: 'term', htmlValue: 'Work Term' },
+        { id: 5, abbr: 'pay', htmlValue: 'Pay' },
+    ]
     return (
         <section className="section">
             <div className="container table-wrapper">
                 <table className="table" align="center">
                     <thead>
                         <tr>
-                            <th>Job Title</th>
-                            <th>Company</th>
-                            <th>Location</th>
-                            <th>Work Term</th>
-                            <th>Pay</th>
+                            {tableHeaders.map(tHead => (
+                                <th
+                                    key={tHead.id}
+                                    abbr={tHead.abbr}
+                                    onClick={sortAndUpdate}
+                                    className={selectedSort === tHead.abbr ? 'selected' : ''}
+                                >
+                                    {tHead.htmlValue}
+                                </th>
+                            ))}
                         </tr>
                     </thead>
 
                     <tbody>
                         {jobs.map(job => (
-                            <tr>
+                            <tr key={job.id}>
                                 <td>{job.job_title}</td>
                                 <td>{job.company}</td>
                                 <td>{job.location}</td>
@@ -30,20 +47,6 @@ export default function CoopTable({ jobs }) {
                             </tr>
                         ))}
                     </tbody>
-
-                    {/* {% for job in jobs %}
-                    <tr>
-                        <td>{{ job.title }}</td>
-                        <td>{{ job.company }}</td>
-                        <td>{{ job.location }}</td>
-                        <td>{{ job.term }}</td>
-                        <td>${{ job.pay }}/hr</td>
-                        <!-- <input type="hidden" name="job_id" id="job_id" value="{{job.job_id}}"> -->
-                        <td onclick="window.location.replace('delete_job/{{job.job_id}}');"> <i
-                                className="fas fa-trash trash-can"></i> </td>
-                    </tr>
-                    {% endfor %} */}
-
                 </table>
             </div>
         </section>

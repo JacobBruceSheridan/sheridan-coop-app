@@ -1,3 +1,11 @@
 .table-wrapper {
     overflow-x: auto;
 }
+
+tr{
+    cursor: pointer;
+}
+
+.selected {
+    border-bottom: 3px solid #008acd !important;
+}
