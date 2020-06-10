@@ -52,11 +52,11 @@ export default function Form({ getJobs }) {
                 <form onSubmit={handleSubmit}>
                     <div className="columns is-centered is-vcentered">
                         {inputs.map(input => (
-                            <div className="column">
+                            <div className="column" key={input.name}>
                                 <div className="field">
                                     <div className="control">
                                         <input name={input.name} className="input is-small" type="text" placeholder={input.placeholder}
-                                            autoComplete="off" value={input.value} onChange={input.handleChange} />
+                                            autoComplete="off" value={input.value} onChange={input.handleChange} required />
                                     </div>
                                 </div>
                             </div>

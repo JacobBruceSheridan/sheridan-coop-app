@@ -9,10 +9,10 @@ import CoopTable from './CoopTable';
 export default function Dashboard({ signOut }) {
     const [jobs, setJobs] = useState([]);
     const [selectedSort, setSelectedSort] = useState('');
+    const db = firebase.firestore();
 
     const getJobs = async () => {
         let tempJobs = [];
-        const db = firebase.firestore();
         await db.collection('users').doc(JSON.parse(window.localStorage.getItem('user')).uid)
             .collection('jobs').get().then(function (querySnapshot) {
                 querySnapshot.forEach(function (doc) {
@@ -39,11 +39,20 @@ export default function Dashboard({ signOut }) {
         setSelectedSort(sortBy);
     }
 
+    const deleteJob = (event) => {
+        setJobs(jobs.filter(job => job.id != event.target.id));
+        db.collection('users').doc(JSON.parse(window.localStorage.getItem('user')).uid)
+            .collection('jobs').doc(event.target.id).delete().then(function () {
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+    }
+
     return (
         <div className="content-container">
             <Header signOut={signOut} />
             <Form getJobs={getJobs} />
-            <CoopTable jobs={jobs} sortJobs={sortJobs} selectedSort={selectedSort} />
+            <CoopTable jobs={jobs} sortJobs={sortJobs} selectedSort={selectedSort} deleteJob={deleteJob} />
         </div>
     )
 }

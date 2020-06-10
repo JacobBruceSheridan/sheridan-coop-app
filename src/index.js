@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
-  apiKey: "",
+  apiKey: "AIzaSyCjmBcgSJFus0qO8SOOvKZFZyK3_-Xtuxk",
   authDomain: "sheridan-coop.firebaseapp.com",
   databaseURL: "https://sheridan-coop.firebaseio.com",
   projectId: "sheridan-coop",

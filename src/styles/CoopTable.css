@@ -6,6 +6,11 @@ tr{
     cursor: pointer;
 }
 
+
+th{
+    transition: 0.15s ease-in-out;
+}
+
 .selected {
     border-bottom: 3px solid #008acd !important;
 }
