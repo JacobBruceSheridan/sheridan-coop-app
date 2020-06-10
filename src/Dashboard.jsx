@@ -39,10 +39,10 @@ export default function Dashboard({ signOut }) {
         setSelectedSort(sortBy);
     }
 
-    const deleteJob = (event) => {
-        setJobs(jobs.filter(job => job.id != event.target.id));
+    const deleteJob = (id) => {
+        setJobs(jobs.filter(job => job.id != id));
         db.collection('users').doc(JSON.parse(window.localStorage.getItem('user')).uid)
-            .collection('jobs').doc(event.target.id).delete().then(function () {
+            .collection('jobs').doc(id).delete().then(function () {
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
             });

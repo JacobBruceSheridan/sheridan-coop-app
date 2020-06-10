@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import './styles/CoopTable.css';
+import JobRecord from './JobRecord';
 
 export default function CoopTable({ jobs, sortJobs, selectedSort, deleteJob }) {
 
@@ -42,15 +43,7 @@ export default function CoopTable({ jobs, sortJobs, selectedSort, deleteJob }) {
                                 - when the form is saved, edit record from firestore    
                         */}
                         {jobs.map(job => (
-                            <tr key={job.id}>
-                                <td>{job.job_title}</td>
-                                <td>{job.company}</td>
-                                <td>{job.location}</td>
-                                <td>{job.term}</td>
-                                <td>{job.pay.toUpperCase() === 'TBD' ? job.pay : `$${job.pay}/hr`}</td>
-                                <span><i className="fas fa-edit icon"></i></span>
-                                <span><i style={{ color: 'red' }} onClick={deleteJob} id={job.id} className="fas fa-trash icon"></i></span>
-                            </tr>
+                            <JobRecord job={job} deleteJob={deleteJob} />
                         ))}
                     </tbody>
                 </table>
